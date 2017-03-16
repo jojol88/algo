@@ -11,7 +11,7 @@ ostream& operator<<(ostream& o, const vector<T>& v) {
 		o << x << ", ";
 	}
 
-	return o << "]"
+	return o << "]";
 }
 
 
@@ -37,7 +37,12 @@ void test_search()
 {
 	typedef vector<int> Array;
 
-	test(8, search_2, Array({0,1,2,3,4,5,6,7}), 8)
+	// deregate
+	// trivial
+	// trivial-2
+	// general
+
+	test(8, search_2, Array({ 0,1,2,3,4,5,6,7 }), 8);
 }
 
 
@@ -85,6 +90,12 @@ int search_2(vector<int>& v, const int& key) {
 	}
 
 	return -1;
+}
+
+
+int search_3()
+{
+
 }
 
 
