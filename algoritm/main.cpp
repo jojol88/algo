@@ -42,24 +42,25 @@ void test_search()
 
 	auto search = search_2;
 	
-	// key not exists in array
-		// deregate
-		test(-1, search, Array(), key);
-		// trivial
-		test(-1, search, Array({ key - 1 }), key);
-		// trivial-2
-		test(-1, search, Array({ key - 1, key + 1 }), key);
-		// general
-		test(-1, search, Array({1,2,3,4,5,6,7}), key);
-
-	// key exists in array
-		// deregate not appliable
-		// trivial
-		test(-1, search, Array({ key }), key);
-		// trivial-2
-		test(-1, search, Array({ key, key + 1 }), key);
-		// general
-		test(-1, search, Array({ 1,2,3,4,5,7 }), key);
+	auto key = 8;
+    // key not exists in array
+        test(-1, search, Array(), key); // degerate
+        test(-1, search, Array({key-1}), key); // trivial
+        test(-1, search, Array({key-1, key+1}), key); // trivial2
+        test(-1, search, Array({1,2,3,4,5,7}), key); // general
+        test(-1, search, Array({9,10,11,12}), key); // general
+        test(-1, search, Array({4,1,2,7,10}), key); // general
+    // key exists in array
+        // non appliable // degerate
+        test(0, search, Array({key}), key); // trivial
+        test(0, search, Array({key, key+1}), key); // trivial2
+        test(1, search, Array({key-1, key}), key); // trivial2
+        test(8, search, Array({0,1,2,3,4,5,6,7,key}), key); // general
+        test(0, search, Array({key, 9,10,11,12}), key); // general
+        test(2, search, Array({4,1,key,7,10}), key); // general                
+        
+        test(0, search, Array({key,1,key,7,10}), key); // general                
+        test(2, search, Array({2,1,key,7,key}), key); // general   
 }
 
 
@@ -118,35 +119,24 @@ int binary_search_helper(
 {
 	assert(is_sorted(v.begin(), v.end()));
 
-	if (begin == end )
-	{
-		return -1;
-	}
-	if (end-begin == 1)
-	{
+	if (begin == end ) return -1;
+	if (end-begin == 1) {
 		if (v[begin] == key)
-		{
 			return begin;
-		}
 		else
-		{
 			return -1;
-		}
 	}
 
-	size_t m = (begin + end) / 2;
 	// [0, s) = [0, m) U [m, s)
+	size_t m = (begin + end) / 2;
+    assert((m-begin) + (end-m) == (end-begin));
 
 	if (key < v[m])
 	{
 		return binary_search_helper(v, begin, m, key);
-	}
-	else if (v[m] < key)
-	{
+	} else if (v[m] < key) {
 		return binary_search_helper(v, m, end, key);
-	}
-	else
-	{
+	} else {
 		return m;
 	}
 }
