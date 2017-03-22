@@ -37,7 +37,7 @@ void test(TResult expect, TFunc f, TParam1 p1, TParam2 p2) {
 
 
 int search_0(const vector<int>& v, const int& key) {
-	for (int i = 0; i < v.size; ++i) {
+	for (int i = 0; i < v.size(); ++i) {
 		if (v[i] == key)
 			return i;
 	}
@@ -132,7 +132,7 @@ int binary_search(const vector<int>& v, int key) {
 	while (b < e)
 	{
 		// [b, e) = [b, m) U [m] U [m+1, e)
-		size_t m = b + (v.end - v.begin)/2; // >> 1
+		size_t m = b + (e-b)/2; // >> 1
 		if (key < v[m]) {
 			e = m;
 		}
@@ -148,11 +148,34 @@ int binary_search(const vector<int>& v, int key) {
 }
 
 
+template<class T, class Tk> 
+T my_lower_bound(T b, T e, Tk key)
+{
+	assert(b <= e, is_sorted(b, e));
+	
+	while (b < e)
+	{
+		T m = b + (e - b) / 2;
+		if (key < *m) {
+			e = m;
+		} else {
+			b = m+1;
+		}
+	}
+
+	return b;
+}
+
+
 void test_search()
 {
 	typedef vector<int> Array;
 
-	auto search = search_3;
+	auto search = [](const vector<int>& v, int key)
+	{
+		auto r = my_lower_bound(v.begin(), v.end(), key);
+		return r != v.end() ? r-v.begin() : -1;
+	};
 
 	auto key = 8;
 	// key not exists in array
@@ -183,3 +206,11 @@ int main()
 	system("pause");
 	return 0;
 }
+
+/*	
+	a half-opened interval [*b,*e)
+	b - first element
+	empty if b = e
+	size = e - b
+	invariant = never changing
+*/
