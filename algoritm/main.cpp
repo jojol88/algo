@@ -94,26 +94,22 @@ int search_3(const std::vector<int>& v, int key) {
 }
 
 
-int binary_search_helper(
-	const vector<int>& v, 
-	size_t begin,
-	size_t end,
-	int key,
-	size_t depth=0)
+int binary_search_helper( const vector<int>& v, size_t begin, 
+                           size_t end,	int key,	size_t depth=0)
 {
 	assert(depth < 1000);
 	assert(is_sorted(v.begin(), v.end()));
 
 	if (begin < end) {
-		// [0, s) = [0, m) U [m, s)
+      // [b, e) = [b, m) U [m] U [m+1, e)
 		size_t m = (begin + end) / 2;
 		assert((m - begin) + (end - m) == (end - begin));
 
 		if (key < v[m]) {
-			return binary_search_helper(v, begin, m, key);
+			return binary_search_helper(v, begin, m, depth+1);
 		}
 		else if (v[m] < key) {
-			return binary_search_helper(v, m, end, key);
+			return binary_search_helper(v, m+1, key, depth+1);
 		}
 		else {
 			return m;
@@ -132,7 +128,7 @@ int binary_search(const vector<int>& v, int key) {
 	while (b < e)
 	{
 		// [b, e) = [b, m) U [m] U [m+1, e)
-		size_t m = b + (e-b)/2; // >> 1
+		size_t m = b + ((v.end() -v.begin()) /2; // >> 1
 		if (key < v[m]) {
 			e = m;
 		}
@@ -148,22 +144,48 @@ int binary_search(const vector<int>& v, int key) {
 }
 
 
-template<class T, class Tk> 
-T my_lower_bound(T b, T e, Tk key)
+template<class TIter, class T> 
+TIter lower_bound(TIter begin, TIter end, const T& key)
 {
-	assert(b <= e, is_sorted(b, e));
+	assert(is_sorted(begin, end));
 	
-	while (b < e)
+	while (begin < end)
 	{
-		T m = b + (e - b) / 2;
-		if (key < *m) {
-			e = m;
+		TIter m = begin + (end - begin) / 2;
+		if (key > *m) {
+			begin = m+1; // [m+1, e)
 		} else {
-			b = m+1;
+			end = m; // [b, m)
 		}
 	}
 
-	return b;
+	return begin;
+}
+
+
+template<class TIter, class T>
+TIter binary_search(TIter begin, TIter end, const T& key)
+{
+   TIter el = lower_bound(begin, end, key);
+   return el != end && !(key < *el) ? el : end;
+}
+
+
+int* min_element(int *b, int *e)
+{
+   int* result = b;
+   int* it = b + 1;
+   while (it < e)
+   {
+      if (*it < *result)
+      {
+         result = it;
+      }
+
+      ++it;
+   }
+
+   return result;
 }
 
 
