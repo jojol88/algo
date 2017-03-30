@@ -3,3 +3,5 @@
 *.vcxproj
 *.filters
 algoritm/Debug/
+*.sln
+python/.idea/
