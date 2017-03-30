@@ -1,4 +1,4 @@
-﻿#include "algoritm/TestSearch.cpp"
+﻿//#include "algoritm/TestSearch.cpp"
 #include "algoritm/TestSort.cpp"
 
 
@@ -6,12 +6,13 @@ int main(int argc, char const *argv[])
 {
    typedef vector<int>::iterator Iter;
 
-   test_sorting(my_naive_sort<Iter>);
+   /*test_sorting(my_naive_sort<Iter>);
    test_sorting(my_selection_sort<Iter>);
-   test_sorting(my_bubble_sort<Iter>);
+   test_sorting(my_bubble_sort<Iter>);*/
+   test_sorting(my_merge_sort<Iter>);
    
-   test_search_1();
-   test_search_2();
+   /*test_search_1();
+   test_search_2();*/
 
 	system("pause");
 	return 0;
