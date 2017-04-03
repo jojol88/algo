@@ -218,14 +218,14 @@ TIter partition_2(TIter b, TIter p, TIter e) {
 	auto b2 = b;
 	auto e2 = b;
 	// [) [) [)
-	while (e2 < e-1)
+	while (e2+1 < e)
 	{
-		++e2;
 		if (*e2 < pivot)
 		{
 			iter_swap(b2, e2);
 			++b2;
 		}
+		++e2;
 	}
 
 	iter_swap(e-1, b2);
