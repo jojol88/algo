@@ -9,7 +9,8 @@ int main(int argc, char const *argv[])
    /*test_sorting(my_naive_sort<Iter>);
    test_sorting(my_selection_sort<Iter>);
    test_sorting(my_bubble_sort<Iter>);*/
-   test_sorting(my_merge_sort<Iter>);
+   //test_sorting(my_merge_sort<Iter>);
+   test_sorting(my_quick_sort<Iter>);
    
    /*test_search_1();
    test_search_2();*/

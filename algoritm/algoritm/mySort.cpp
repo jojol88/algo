@@ -182,4 +182,67 @@ void my_merge_sort(TIter b, TIter e) {
 	copy(buff.begin(), buff.end(), b);
 }
 
+/////////////////////////////////////////////////////////////////////
+
+template<class TIter>
+TIter partition_1(TIter b, TIter p, TIter e) {
+	assert(b < e);
+	auto pivot = *p;
+	swap(*(e-1), *p);
+	auto ub = b;
+	auto ue = e-1;
+	// [) [) [)
+	while (ub < ue)
+	{
+		if (*ub < pivot)
+		{
+			++ub;
+		}
+		else
+		{
+			--ue;
+			iter_swap(ub, ue);
+		}
+	}
+	swap(*ub, *(e - 1));
+
+	return ub;
+}
+
+
+template<class TIter>
+TIter partition_2(TIter b, TIter p, TIter e) {
+	assert(b < e);
+	auto pivot = *p;
+	iter_swap(e - 1, p);
+	auto b2 = b;
+	auto e2 = b;
+	// [) [) [)
+	while (e2 < e-1)
+	{
+		++e2;
+		if (*e2 < pivot)
+		{
+			iter_swap(b2, e2);
+			++b2;
+		}
+	}
+
+	iter_swap(e-1, b2);
+
+	return b2;
+}
+
+
+template<class TIter>
+void my_quick_sort(TIter b, TIter e) {
+	if (e - b > 1)
+	{
+		auto p = partition_2(b, b, e);
+		// assert(max(b, p) <= *p && p < min(p + 1, e));
+		my_quick_sort(b, p);
+		my_quick_sort(p + 1, e);
+	}
+}
+
 #endif // MY_SORT
