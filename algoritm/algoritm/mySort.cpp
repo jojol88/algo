@@ -235,10 +235,23 @@ TIter partition_2(TIter b, TIter p, TIter e) {
 
 
 template<class TIter>
+TIter partition_2(TIter b, TIter e) {
+	assert(b < e);
+	auto m = b + (e - b) / 2;
+	auto last = e - 1;
+
+	if (*m < *b) swap(b, m);
+	if (*last < *m) swap(last, m);
+	if (*m < *b) swap(b, m);
+
+	return m;
+}
+
+template<class TIter>
 void my_quick_sort(TIter b, TIter e) {
 	if (e - b > 1)
 	{
-		auto p = partition_2(b, b, e);
+		auto p = partition_2(b, pivot_strategy(b, e), e);
 		// assert(max(b, p) <= *p && p < min(p + 1, e));
 		my_quick_sort(b, p);
 		my_quick_sort(p + 1, e);
