@@ -1,8 +1,0 @@
-*.opendb
-*.db
-*.vcxproj
-*.filters
-algoritm/Debug/
-*.sln
-python/.idea/
-algoritm/algoritm/Debug/
